@@ -63,40 +63,54 @@ print(my_list)
 
 
 # matplotlib
+print()
+graph_2 = my_list['Adult/Young'].value_counts().reset_index()
+print(graph_2)
 
-graph_2 = my_list.groupby(['city']).count()
-graph_2.drop(columns='name', inplace=True)
-graph_2.reset_index(inplace=True)
-graph_2.rename(columns={'age':'Members'}, inplace=True)
-#print(graph_2)
+graph_3 = my_list.groupby(['city']).count()
+graph_3.drop(columns='name', inplace=True)
+graph_3.reset_index(inplace=True)
+graph_3.rename(columns={'age':'Members'}, inplace=True)
+#print(graph_3)
+
 
 
 np_arr = my_list.values
 np_graph_2= graph_2.values
+np_graph_3= graph_3.values
 
-x_plt1 = np_graph_2[:,0]
-y_plt1 = np_graph_2[:,1]
+
+x_plt1 = np_graph_3[:,0]
+y_plt1 = np_graph_3[:,1]
+
+x_plt2 = np_graph_2[:,0]
+y_plt2 = np_graph_2[:,1]
 
 x_plt3 = np_arr[:,0]
 y_plt3 = np_arr[:,1]
 
-plot1 = plt.subplot2grid((4, 3), (0, 0), colspan=3)
-plt.xticks(np.arange(0, graph_2['Members'].max()+3, 1.0))
-'''
-plot2 = plt.subplot2grid((4, 3), (0, 2), rowspan=3, colspan=2)
-plt.yticks(np.arange(0, max(y_plt1)+1, 1.0))
-plt.xticks(rotation=30)
-'''
-plot3 = plt.subplot2grid((3, 3), (1, 0), rowspan=2, colspan=3)
+plot1 = plt.subplot2grid((6, 4), (0, 0), colspan=3)
+plt.xticks(np.arange(0, graph_3['Members'].max()+3, 1.0))
+
+plot2 = plt.subplot2grid((6, 4), (0, 3), rowspan=5)
+plt.yticks(np.arange(0, max(y_plt2)+3, 1.0))
+plt.xticks(rotation=15)
+
+plot3 = plt.subplot2grid((6, 4), (2, 0), rowspan=4, colspan=3)
 plt.yticks(np.arange(0, max(y_plt3)+1, 1.0))
-plt.xticks(rotation=30)
+plt.xticks(rotation=35)
 
 plot1.barh(x_plt1,y_plt1,xerr=0.2)
-plot1.set_title("Ammount for Members from each city")
+plot1.set_title("Ammount of Members from each city")
 plot1.set_ylabel("City")
 plot1.set_xlabel("Ammount of Members")
 
-plot3.bar(x_plt3,y_plt3,xerr=0.2, width=0.3)
+plot2.bar(x_plt2,y_plt2,xerr=0.2, width=0.3)
+plot2.set_title("Type of age")
+plot2.set_ylabel("Number of young or adult")
+plot2.set_xlabel("Adult or Young")
+
+plot3.bar(x_plt3,y_plt3,xerr=0.2, width=0.3, align='center')
 plot3.set_title("Members's Age")
 plot3.set_ylabel("Age")
 plot3.set_xlabel("Name")
